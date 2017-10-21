@@ -9,7 +9,7 @@ function onOpen() {
 function createSpsh() {
   var ui = SpreadsheetApp.getUi();
   
-  //Collect namete for new spreadsheet
+  //Collect name for the new spreadsheet
   var result = ui.prompt(
   'Please enter name of new sheet',
   ui.ButtonSet.OK_CANCEL);
