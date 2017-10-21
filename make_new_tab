@@ -1,0 +1,59 @@
+function onOpen() {
+ //creates a menu item to test createSpsh function below
+  SpreadsheetApp.getUi()
+ .createMenu('TestProcess')
+ .addItem('add a sheet', 'createSpsh')
+  .addToUi();
+}
+
+function createSpsh() {
+  var ui = SpreadsheetApp.getUi();
+  
+  //Collect namete for new spreadsheet
+  var result = ui.prompt(
+  'Please enter name of new sheet',
+  ui.ButtonSet.OK_CANCEL);
+  
+  //store input information
+  var button = result.getSelectedButton();
+  var sheetName = result.getResponseText();
+  //test sheetName for blank value
+  if (!sheetName) {
+    Browser.msgBox('Error', 'You must enter a name for the new sheet',
+                  Browser.Buttons.OK);
+    return;
+  }
+  
+  //create the new tab
+  if (button = ui.Button.OK) {
+    //check to see if name of new tab is existing, if so, clear contents
+    var activeSpreadsheet = SpreadsheetApp.getActive();
+    var theNewSheet = activeSpreadsheet.getSheetByName(sheetName);
+    //clear contents of existing
+    if (theNewSheet) {
+      theNewSheet.clear();
+      theNewSheet.activate();
+    } else {
+      //or create new
+      theNewSheet = 
+        activeSpreadsheet.insertSheet(sheetName, activeSpreadsheet.getNumSheets());
+    }
+  }
+  
+  //add a header row
+  //first name header rows
+  var sheetTitle = Utilities.formatString('This is %s\'s worksheet',sheetName);
+  var headers = [
+    [sheetTitle, '', ''],
+    ['some title here','second title here','third title here']
+    ];
+ 
+  //now add header rows 
+  theNewSheet.getRange(1, 1, headers.length, 3).setValues(headers);
+    
+
+
+
+}
+    
+    
